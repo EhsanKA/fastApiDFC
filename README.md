@@ -47,5 +47,5 @@ Replace `/path/to/your/project` with the actual path to your project directory.
 ## Contact
 Ehsan Karimiara 
 - [@ehsan-ka](https://www.linkedin.com/in/ehsan-ka/) on Linkedin 
-- e.karimiara@gmail.com
+- E.karimiara@gmail.com
 - [@EhsanKA](https://github.com/EhsanKA) on Github
