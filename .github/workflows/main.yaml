@@ -24,5 +24,7 @@ jobs:
         pwd
         ls -l
     - name: Run tests
+      env:
+        PYTHONPATH: ${{ github.workspace }}
       run: |
         pytest app/tests

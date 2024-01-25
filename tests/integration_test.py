@@ -1,6 +1,6 @@
 from app.fee_calculator import FeeCalculator
 from fastapi.testclient import TestClient
-from app.main import app  # Assuming your FastAPI app is in 'main.py'
+from app.main import app  # Assuming the FastAPI app is in 'main.py'
 
 client = TestClient(app)
 
