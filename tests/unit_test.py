@@ -8,7 +8,7 @@ from app.fee_calculator import FeeCalculator
     (1000, 200),
     (1001, 300),
     (1501, 400),
-    (2001, 500),
+    (2001, 500), 
 ])
 def test_calculate_base_fee(distance, expected_fee):
     calculator = FeeCalculator(1000, distance, 5, "2024-01-20T16:00:00Z")

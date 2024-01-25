@@ -1,5 +1,7 @@
 # Delivery Fee Calculator
 
+[![Build Status](https://github.com/EhsanKA/fastApiDFC/actions/workflows/main.yaml/badge.svg)](https://github.com/EhsanKA/fastApiDFC/actions/workflows/main.yaml)
+
 This project is an implementation of the assignment for the [Wolt Software (Backend) 2024 Summer Internship](https://github.com/woltapp/engineering-internship-2024). It includes a delivery fee calculation service built with FastAPI and is designed to showcase best practices in code quality, maintainability, and testing.
 
 ## Getting Started

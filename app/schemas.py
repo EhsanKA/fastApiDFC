@@ -7,7 +7,4 @@ class OrderRequest(BaseModel):
     delivery_distance: int
     number_of_items: int
     order_time: Optional[str] = datetime.now().isoformat()
-
-
-# class OrderResponse(BaseModel):
-#     delivery_fee: int
+    
