@@ -1,4 +1,4 @@
-from datetime import datetime, timezone
+from datetime import datetime
 
 
 class FeeCalculator:
@@ -55,20 +55,17 @@ class FeeCalculator:
         return fee
 
     def _is_rush_hour(self):
-        # order time with timezone and convert to UTC
-        order_time_with_tz = datetime.fromisoformat(self.order_time_str)
-        order_time_utc = order_time_with_tz.astimezone(timezone.utc)
-
-        # Check if the order time is on a Friday in UTC
-        if order_time_utc.weekday() != 4:  # Friday is 4
+        # Assuming the input string ends with 'Z' to denote UTC time
+        order_time = datetime.fromisoformat(self.order_time_str.replace("Z", "+00:00"))
+        if order_time.weekday() != 4:  # Monday is 0 and Sunday is 6, so Friday is 4
             return False
 
         # Rush hour start and end
-        rush_hour_start = order_time_utc.replace(hour=15, minute=0, second=0, microsecond=0)
-        rush_hour_end = order_time_utc.replace(hour=19, minute=0, second=0, microsecond=0)
+        rush_hour_start = order_time.replace(hour=15, minute=0, second=0)
+        rush_hour_end = order_time.replace(hour=19, minute=0, second=0)
 
         # Check if the time is within the rush hour period
-        return rush_hour_start <= order_time_utc < rush_hour_end
+        return rush_hour_start <= order_time < rush_hour_end
 
     def _apply_discounts_and_caps(self, fee):
         # Cap the delivery fee and apply free delivery for large orders
