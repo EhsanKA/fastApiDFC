@@ -2,24 +2,27 @@ from datetime import datetime
 
 
 class FeeCalculator:
-    def __int__(self, cart_value, delivery_distance, number_of_items, order_time_str):
+    def __init__(self, cart_value, delivery_distance, number_of_items, order_time_str):
         self.cart_value = cart_value
         self.delivery_distance = delivery_distance
         self.number_of_items = number_of_items
         self.order_time_str = order_time_str
-        pass
 
     def calculate_delivery_fee(self):
         fee = 0
 
-        # Calculate base fee, surcharges, and small order surcharge
-        fee += self._calculate_base_fee()
-        fee += self._calculate_item_surcharge()
-        fee += self._calculate_small_order_surcharge()
-        fee += self._bulk_fee()
+        # Calculate base fee and surcharges
+        fee += self._calculate_base_fee() 
+        fee += self._calculate_item_surcharge() 
+        fee += self._bulk_fee() 
 
         # Apply rush hour multiplier
         fee = self._calculate_rush_hour_surcharge(fee)
+
+        # Apply small order surcharge and consider a linear increase in the fee to make the order worth it
+        # this is my assumption, I don't know if this is the correct way to do it
+        # it just sounded more fair to me
+        fee += self._calculate_small_order_surcharge() 
 
         # Apply discounts or caps
         fee = self._apply_discounts_and_caps(fee)
