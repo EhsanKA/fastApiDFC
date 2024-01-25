@@ -51,13 +51,13 @@ class FeeCalculator:
 
     def _calculate_rush_hour_surcharge(self, fee):
         if self._is_rush_hour():
-            return fee * 1.2
+            return int(fee * 1.2)
         return fee
 
     def _is_rush_hour(self):
         # Assuming the input string ends with 'Z' to denote UTC time
         order_time = datetime.fromisoformat(self.order_time_str.replace("Z", "+00:00"))
-        if order_time.weekday() != 4:  # Monday is 0 and Sunday is 6, so Friday is 4
+        if order_time.weekday() != 4:  # Friday is 4
             return False
 
         # Rush hour start and end
