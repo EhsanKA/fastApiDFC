@@ -25,4 +25,4 @@ jobs:
         ls -l
     - name: Run tests
       run: |
-        pytest tests/
+        pytest app/tests
