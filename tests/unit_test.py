@@ -1,6 +1,7 @@
 # test_delivery_fee_calculator.py
 import pytest
 from app.fee_calculator import FeeCalculator
+from app.schemas import OrderRequest
 
 # Test case for calculate_base_fee
 @pytest.mark.parametrize("distance, expected_fee", [
@@ -80,3 +81,17 @@ def test_apply_discounts_and_caps(cart_value, fee, expected_fee):
 def test_calculate_delivery_fee(cart_value, delivery_distance, number_of_items, order_time, expected_fee):
     calculator = FeeCalculator(cart_value, delivery_distance, number_of_items, order_time)
     assert calculator.calculate_delivery_fee() == expected_fee
+
+
+# Test case for validators
+def test_number_of_items_validator():
+    with pytest.raises(ValueError, match='number_of_items must be greater than zero'):
+        OrderRequest(number_of_items=0, cart_value=100, delivery_distance=100)
+
+def test_cart_value_validator():
+    with pytest.raises(ValueError, match='cart_value must be greater than zero'):
+        OrderRequest(number_of_items=1, cart_value=0, delivery_distance=100)
+
+def test_delivery_distance_validator():
+    with pytest.raises(ValueError, match='delivery_distance must be greater than zero'):
+        OrderRequest(number_of_items=1, cart_value=100, delivery_distance=0)
