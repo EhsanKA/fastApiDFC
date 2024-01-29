@@ -49,8 +49,8 @@ Replace `/path/to/your/project` with the actual path to your project directory.
 #### Running Tests
 ```bash
 cd tests
-pytest unit_tests.py
-pytest integration_tests.py
+pytest unit_test.py
+pytest integration_test.py
 ```
 
 ## Contact
