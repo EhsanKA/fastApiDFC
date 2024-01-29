@@ -57,25 +57,23 @@ class FeeCalculator:
     def _is_rush_hour(self):
         # Replace 'Z' with '+00:00' to make the string compatible with fromisoformat
         order_time_str = self.order_time_str.replace("Z", "+00:00")
-
-        # Parse the datetime string to a timezone-aware datetime object
         order_time = datetime.fromisoformat(order_time_str)
 
-        # Convert the time to UTC if it's not already
+        # Convert the time to UTC
         if order_time.tzinfo is not None:
             order_time_utc = order_time.astimezone(pytz.utc)
         else:
             order_time_utc = order_time.replace(tzinfo=pytz.utc)
 
-        # Check if the day is Friday (Monday is 0 and Sunday is 6, so Friday is 4)
+        # Monday = 0 and Friday = 4
         if order_time_utc.weekday() != 4:
             return False
 
-        # Define rush hour start and end times in UTC
+        # Rush hour start and end in UTC
         rush_hour_start_utc = order_time_utc.replace(hour=15, minute=0, second=0, microsecond=0)
         rush_hour_end_utc = order_time_utc.replace(hour=19, minute=0, second=0, microsecond=0)
 
-        # Check if the time is within the rush hour period in UTC
+        # Time is within the rush hour
         return rush_hour_start_utc <= order_time_utc < rush_hour_end_utc
 
 
