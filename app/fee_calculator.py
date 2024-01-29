@@ -54,23 +54,6 @@ class FeeCalculator:
             return fee * 1.2
         return fee
 
-    # def _is_rush_hour(self):
-    #     # here you get the time and must convert their time (using the timezone coming with the 
-    #     # order_time_str) and make everything in the UTC timezone.
-    #     # then you would check if the tiem falls in the rush hour or not.
-    #     # Assuming the input string ends with 'Z' to denote UTC time
-    #     order_time = datetime.fromisoformat(self.order_time_str.replace("Z", "+00:00"))
-    #     if order_time.weekday() != 4:  # Monday is 0 and Sunday is 6, so Friday is 4
-    #         return False
-
-    #     # Rush hour start and end
-    #     rush_hour_start = order_time.replace(hour=15, minute=0, second=0)
-    #     rush_hour_end = order_time.replace(hour=19, minute=0, second=0)
-
-    #     # Check if the time is within the rush hour period
-    #     return rush_hour_start <= order_time < rush_hour_end
-
-
     def _is_rush_hour(self):
         # Replace 'Z' with '+00:00' to make the string compatible with fromisoformat
         order_time_str = self.order_time_str.replace("Z", "+00:00")
