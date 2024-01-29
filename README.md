@@ -38,13 +38,20 @@ uvicorn app.main:app --reload
 ```
 The API will be available at `http://127.0.0.1:8000/orders/` or to have it tested, use `http://127.0.0.1:8000/docs/`.
 
-### Running Tests
+### Tests
+#### Path 
 Before running tests with `pytest`, set the `PYTHONPATH` environment variable:
 
 ```bash
 export PYTHONPATH=$PYTHONPATH:/path/to/your/project
 ```
 Replace `/path/to/your/project` with the actual path to your project directory.
+#### Running Tests
+```bash
+cd tests
+pytest unit_tests.py
+pytest integration_tests.py
+```
 
 ## Contact
 Ehsan Karimiara 
