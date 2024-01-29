@@ -38,20 +38,29 @@ uvicorn app.main:app --reload
 ```
 The API will be available at `http://127.0.0.1:8000/orders/` or to have it tested, use `http://127.0.0.1:8000/docs/`.
 
-### Tests
-#### Path 
-Before running tests with `pytest`, set the `PYTHONPATH` environment variable:
+### Environment Setup
+Before running the tests, set the `PYTHONPATH` environment variable to ensure the test framework can locate all necessary project files.
 
 ```bash
 export PYTHONPATH=$PYTHONPATH:/path/to/your/project
 ```
 Replace `/path/to/your/project` with the actual path to your project directory.
-#### Running Tests
+
+### Running Tests
+Navigate to the tests directory and run the tests using `pytest`:
+
+
 ```bash
 cd tests
 pytest unit_test.py
 pytest integration_test.py
 ```
+
+### CI/CD Integration
+Our project uses GitHub Actions for Continuous Integration and Continuous Deployment, ensuring that every change is automatically tested and stable before being merged into the master branch.
+
+The CI/CD pipeline is defined in the [`.github/workflows/main.yaml`](https://github.com/EhsanKA/fastApiDFC/actions/workflows/main.yaml) file. This workflow triggers on every push to the master branch
+
 
 ## Contact
 Ehsan Karimiara 
