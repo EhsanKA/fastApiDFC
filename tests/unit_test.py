@@ -75,7 +75,9 @@ def test_apply_discounts_and_caps(cart_value, fee, expected_fee):
 # Test case for calculate_delivery_fee
 @pytest.mark.parametrize("cart_value, delivery_distance, number_of_items, order_time, expected_fee", [
     (790, 2235, 4, "2024-01-15T13:00:00Z", 710),
-    (600, 1501, 12, "2023-12-01T16:00:00Z", 1360),
+    (600, 1501, 12, "2023-12-01T16:00:00Z", 1440),
+    (600, 1501, 12, "2023-12-01T16:00:00-02:00", 1440),
+    (600, 1501, 12, "2023-12-01T16:00:00+04:00", 1200)
 ])
 def test_calculate_delivery_fee(cart_value, delivery_distance, number_of_items, order_time, expected_fee):
     calculator = FeeCalculator(cart_value, delivery_distance, number_of_items, order_time)

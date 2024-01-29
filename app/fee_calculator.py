@@ -1,4 +1,5 @@
 from datetime import datetime
+import pytz
 
 
 class FeeCalculator:
@@ -16,13 +17,12 @@ class FeeCalculator:
         fee += self._calculate_item_surcharge() 
         fee += self._bulk_fee() 
 
+        # Apply small order surcharge and consider a linear increase in the fee
+        # to make the price, worth to be delivered
+        fee += self._calculate_small_order_surcharge() 
+
         # Apply rush hour multiplier
         fee = self._calculate_rush_hour_surcharge(fee)
-
-        # Apply small order surcharge and consider a linear increase in the fee to make the order worth it
-        # this is my assumption, I don't know if this is the correct way to do it
-        # it just sounded more fair to me
-        fee += self._calculate_small_order_surcharge() 
 
         # Apply discounts or caps
         fee = self._apply_discounts_and_caps(fee)
@@ -54,18 +54,47 @@ class FeeCalculator:
             return fee * 1.2
         return fee
 
+    # def _is_rush_hour(self):
+    #     # here you get the time and must convert their time (using the timezone coming with the 
+    #     # order_time_str) and make everything in the UTC timezone.
+    #     # then you would check if the tiem falls in the rush hour or not.
+    #     # Assuming the input string ends with 'Z' to denote UTC time
+    #     order_time = datetime.fromisoformat(self.order_time_str.replace("Z", "+00:00"))
+    #     if order_time.weekday() != 4:  # Monday is 0 and Sunday is 6, so Friday is 4
+    #         return False
+
+    #     # Rush hour start and end
+    #     rush_hour_start = order_time.replace(hour=15, minute=0, second=0)
+    #     rush_hour_end = order_time.replace(hour=19, minute=0, second=0)
+
+    #     # Check if the time is within the rush hour period
+    #     return rush_hour_start <= order_time < rush_hour_end
+
+
     def _is_rush_hour(self):
-        # Assuming the input string ends with 'Z' to denote UTC time
-        order_time = datetime.fromisoformat(self.order_time_str.replace("Z", "+00:00"))
-        if order_time.weekday() != 4:  # Monday is 0 and Sunday is 6, so Friday is 4
+        # Replace 'Z' with '+00:00' to make the string compatible with fromisoformat
+        order_time_str = self.order_time_str.replace("Z", "+00:00")
+
+        # Parse the datetime string to a timezone-aware datetime object
+        order_time = datetime.fromisoformat(order_time_str)
+
+        # Convert the time to UTC if it's not already
+        if order_time.tzinfo is not None:
+            order_time_utc = order_time.astimezone(pytz.utc)
+        else:
+            order_time_utc = order_time.replace(tzinfo=pytz.utc)
+
+        # Check if the day is Friday (Monday is 0 and Sunday is 6, so Friday is 4)
+        if order_time_utc.weekday() != 4:
             return False
 
-        # Rush hour start and end
-        rush_hour_start = order_time.replace(hour=15, minute=0, second=0)
-        rush_hour_end = order_time.replace(hour=19, minute=0, second=0)
+        # Define rush hour start and end times in UTC
+        rush_hour_start_utc = order_time_utc.replace(hour=15, minute=0, second=0, microsecond=0)
+        rush_hour_end_utc = order_time_utc.replace(hour=19, minute=0, second=0, microsecond=0)
 
-        # Check if the time is within the rush hour period
-        return rush_hour_start <= order_time < rush_hour_end
+        # Check if the time is within the rush hour period in UTC
+        return rush_hour_start_utc <= order_time_utc < rush_hour_end_utc
+
 
     def _apply_discounts_and_caps(self, fee):
         # Cap the delivery fee and apply free delivery for large orders
